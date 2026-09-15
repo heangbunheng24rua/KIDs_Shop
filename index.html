@@ -58,6 +58,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:9px;bord
 .modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:15px;z-index:50}
 .modal.show{display:flex}.modal-card{background:#fff;border-radius:14px;padding:20px;width:min(900px,100%);max-height:92vh;overflow:auto}
 @media(max-width:700px){header{align-items:flex-start;flex-direction:column}main{padding:12px}table{min-width:900px}}
+.sale-model-picker{margin-top:8px}.sale-model-search{max-width:420px}.sale-model-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px;margin-top:12px}.sale-model-card{border:2px solid #e2e8f0;border-radius:14px;background:#fff;padding:10px;cursor:pointer;text-align:center;transition:.15s;box-shadow:0 2px 8px #00000008}.sale-model-card:hover{border-color:#93c5fd;transform:translateY(-1px);box-shadow:0 5px 14px #00000012}.sale-model-card.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 2px #dbeafe}.sale-model-card img,.sale-model-card-fallback{width:112px;height:112px;object-fit:cover;border-radius:10px;border:1px solid #ddd;background:#fff;margin:auto;display:block}.sale-model-card-fallback{display:flex;align-items:center;justify-content:center;font-size:38px;background:#f8fafc}.sale-model-code{font-weight:800;font-size:15px;margin-top:8px}.sale-model-name{color:#64748b;font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sale-model-stock{display:inline-block;margin-top:7px;padding:4px 8px;border-radius:999px;background:#dcfce7;color:#166534;font-size:11px;font-weight:800}.sale-model-stock.low{background:#fef3c7;color:#92400e}.sale-model-stock.out{background:#fee2e2;color:#991b1b}.sale-model-empty{padding:18px;text-align:center;color:#64748b;border:1px dashed #cbd5e1;border-radius:10px;background:#f8fafc}.sale-model-preview{display:flex;gap:16px;align-items:center;margin-top:14px;border:1px solid #dbeafe;border-radius:14px;background:#f8fbff;padding:14px}.sale-model-preview img,.sale-model-preview-fallback{width:118px;height:118px;flex:0 0 118px;object-fit:cover;border-radius:12px;border:1px solid #ddd;background:#fff}.sale-model-preview-fallback{display:flex;align-items:center;justify-content:center;font-size:42px}.sale-preview-title{font-size:20px;font-weight:800}.sale-preview-sub{color:#64748b;font-size:13px;margin-top:4px}.sale-preview-stock{margin-top:7px;font-weight:800;color:#166534}.sale-preview-price{margin-top:4px;font-weight:800;color:#1d4ed8}.sale-size-section{grid-column:1/-1}.sale-size-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:7px}.sale-size-heading .muted{font-size:12px}.sale-size-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:9px}.sale-size-box{border:1px solid #dbe3ee;border-radius:10px;padding:9px;background:#fff;text-align:center}.sale-size-box .size-name{font-weight:800}.sale-size-box .sale-current{display:block;color:#64748b;font-size:11px;margin-top:3px}.sale-size-box input{margin-top:7px;text-align:center;font-weight:800}.sale-size-box input:focus{border-color:#2563eb;outline:none;box-shadow:0 0 0 2px #dbeafe}@media(max-width:700px){.sale-model-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.sale-model-preview{align-items:flex-start}.sale-model-preview img,.sale-model-preview-fallback{width:90px;height:90px;flex-basis:90px}}
 
 .cor-model-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:10px}.cor-model-result{display:flex;flex-direction:column;align-items:center;gap:7px;border:1px solid #cbd5e1;border-radius:13px;padding:10px;background:#fff;cursor:pointer;text-align:center;transition:.15s}.cor-model-result:hover{background:#f8fafc;border-color:#2563eb;box-shadow:0 3px 12px #00000012;transform:translateY(-1px)}.cor-model-result.cor-selected{border-color:#22c55e;background:#f0fdf4}.cor-model-result img,.cor-model-result-fallback{width:112px;height:112px;flex:0 0 112px;border-radius:10px;border:1px solid #ddd;object-fit:cover;background:#fff}.cor-model-result-fallback{display:flex;align-items:center;justify-content:center;background:#f8fafc;font-size:40px}.cor-result-code{font-weight:800;font-size:15px;line-height:1.2}.cor-result-meta{color:#64748b;font-size:12px;margin-top:1px}.cor-result-stock{font-weight:800;font-size:12px;margin-top:2px;color:#166534}.cor-click-hint{font-size:11px;color:#64748b;margin-top:2px}.cor-model-preview{margin-top:10px;border:1px solid #e2e8f0;border-radius:13px;background:#f8fafc;padding:14px}.cor-preview-head{display:flex;gap:14px;align-items:center}.cor-preview-image,.cor-preview-fallback{width:130px;height:130px;flex:0 0 130px;border-radius:12px;border:1px solid #ddd;object-fit:cover;background:#fff}.cor-preview-fallback{display:flex;align-items:center;justify-content:center;font-size:42px}.cor-preview-title{font-size:18px;font-weight:800}.cor-preview-sub{color:#64748b;font-size:13px;margin-top:4px}.cor-preview-total{margin-top:5px;font-weight:800}.cor-stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:8px;margin-top:13px}.cor-stock-chip{border:1px solid #cbd5e1;border-radius:9px;background:#fff;padding:8px;text-align:center}.cor-stock-chip b{display:block;font-size:15px}.cor-stock-chip span{display:block;color:#64748b;font-size:12px;margin-top:2px}.cor-selected{border-color:#22c55e;background:#f0fdf4}.cor-no-results{color:#64748b;font-size:13px;padding:8px 2px}.history-edit{background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 11px;font-weight:700;cursor:pointer}.history-edit:hover{background:#1d4ed8}
 .history-edit-input{width:72px;padding:6px 7px;border:1px solid #94a3b8;border-radius:7px;font-weight:700;text-align:center}
@@ -135,9 +136,26 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:9px;bord
 </section>
 
 <section id="sales" class="page">
-<div class="panel"><h2>🛒 Stock Out / Sale</h2>
-<form id="saleForm"><label>Model<select id="saleModel" required></select></label><label>Date<input id="saleDate" type="date" required></label><label>Payment<select id="payment"><option>Cash</option><option>Transfer</option><option>Credit</option></select></label>
-<div style="grid-column:1/-1"><div id="saleSizes" class="size-grid"></div></div><button class="primary">Save Sale</button></form></div>
+<div class="panel">
+  <h2>🛒 Stock Out / Sale</h2>
+  <div class="notice">Select the shoe by <b>image</b> instead of searching through a long model-code list. Then enter only the quantity you are selling.</div>
+  <label>Search Shoe by Code, Name or Color
+    <input id="saleModelSearch" class="sale-model-search" type="search" placeholder="🔎 Search shoe..." autocomplete="off" oninput="renderSaleModelCards()">
+  </label>
+  <div id="saleModelCards" class="sale-model-cards"></div>
+  <select id="saleModel" required style="display:none"></select>
+  <div id="saleModelPreview" class="sale-model-preview" style="display:none"></div>
+
+  <form id="saleForm" style="margin-top:14px">
+    <label>Date<input id="saleDate" type="date" required></label>
+    <label>Payment<select id="payment"><option>Cash</option><option>Transfer</option><option>Credit</option></select></label>
+    <div class="sale-size-section">
+      <div class="sale-size-heading"><b>📦 Enter Stock Out Quantity</b><span class="muted">Current stock is shown below each size. Enter the quantity to OUT.</span></div>
+      <div id="saleSizes" class="sale-size-grid"></div>
+    </div>
+    <button class="primary" type="submit">🛒 Save Sale (Stock Out)</button>
+  </form>
+</div>
 <div class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0">Sales History</h2><button class="history-delete" onclick="deleteAllHistoryType('sales')">🗑 Delete All Sales</button></div><div id="salesHistory"></div></div>
 </section>
 
@@ -200,7 +218,7 @@ let models=[],sizes=[],stock=[],sales=[],corrections=[];
 const S=Array.from({length:31},(_,i)=>i+21),today=new Date().toISOString().slice(0,10);
 document.querySelectorAll('input[type=date]').forEach(x=>x.value=today);
 
-function page(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');if(id==='stock'){renderStockCards();renderStock();}if(id==='sales')renderSales();if(id==='correction')renderCorrection();if(id==='reports')renderReports()}
+function page(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');if(id==='stock'){renderStockCards();renderStock();}if(id==='sales'){renderSaleModelCards();renderSaleModelPreview();renderSales();}if(id==='correction')renderCorrection();if(id==='reports')renderReports()}
 function msg(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2200)}
 function esc(v){return String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
 function grid(id,sel=[]){
@@ -364,11 +382,12 @@ function renderDashboard(){
     }).join('')+'</table>';
 }
 function fillSelects(){
-  ['saleModel','corModel'].forEach(id=>{
-    let x=document.getElementById(id);
-    x.innerHTML='<option value="">Select model</option>'+models.map(m=>`<option value="${m.id}">${esc(m.model_code)} — ${esc(m.model_name)}</option>`).join('');
-    x.onchange=()=>sizeInputs(id);
-  });
+  const sale=document.getElementById('saleModel');
+  if(sale){
+    sale.innerHTML='<option value="">Select model</option>'+models.map(m=>`<option value="${m.id}">${esc(m.model_code)} — ${esc(m.model_name)}</option>`).join('');
+    if(!sale.value && models.length) sale.value=String(models[0].id);
+  }
+  renderSaleModelCards();
   sizeInputs('saleModel');
   const corSearch=document.getElementById('corModelSearch');
   if(corSearch)corSearch.value='';
@@ -465,12 +484,60 @@ function renderStockCards(){
     if(totalEl) totalEl.textContent=total;
   }
 }
+function renderSaleModelCards(){
+  const box=document.getElementById('saleModelCards');
+  if(!box)return;
+  const q=(document.getElementById('saleModelSearch')?.value||'').trim().toLowerCase();
+  const selectedId=String(document.getElementById('saleModel')?.value||'');
+  const list=models.filter(m=>m.active!==false && (!q || [m.model_code,m.model_name,m.color].join(' ').toLowerCase().includes(q)));
+  if(!list.length){box.innerHTML='<div class="sale-model-empty">No matching shoe model found.</div>';return}
+  box.innerHTML=list.map(m=>{
+    const total=stock.filter(x=>String(x.model_id)===String(m.id)).reduce((a,x)=>a+(Number(x.current_stock)||0),0);
+    const hasLowSize=stock.filter(x=>String(x.model_id)===String(m.id)).some(x=>Number(x.current_stock||0)<=Number(m.minimum_stock||0));
+    const status=total<=0?'out':hasLowSize?'low':'';
+    const src=imageSrc(m.image_url);
+    const img=src
+      ? `<img src="${esc(src)}" alt="${esc(m.model_code)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : '';
+    return `<div class="sale-model-card ${selectedId===String(m.id)?'selected':''}" data-id="${esc(m.id)}" onclick="selectSaleModel('${esc(m.id)}')">
+      ${img}<div class="sale-model-card-fallback" style="${src?'display:none':''}">👟</div>
+      <div class="sale-model-code">${esc(m.model_code)}${m.color?' — '+esc(m.color):''}</div>
+      <div class="sale-model-name">${esc(m.model_name||'')}</div>
+      <span class="sale-model-stock ${status}">${total} in stock</span>
+    </div>`;
+  }).join('');
+  renderSaleModelPreview();
+}
+function selectSaleModel(id){
+  const select=document.getElementById('saleModel');
+  if(select)select.value=String(id);
+  renderSaleModelCards();
+  sizeInputs('saleModel');
+}
+function renderSaleModelPreview(){
+  const box=document.getElementById('saleModelPreview');
+  const id=document.getElementById('saleModel')?.value;
+  const m=models.find(x=>String(x.id)===String(id));
+  if(!box||!m){if(box)box.style.display='none';return}
+  const total=stock.filter(x=>String(x.model_id)===String(m.id)).reduce((a,x)=>a+(Number(x.current_stock)||0),0);
+  const src=imageSrc(m.image_url);
+  const image=src
+    ? `<img src="${esc(src)}" alt="${esc(m.model_code)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    : '';
+  box.innerHTML=`${image}<div class="sale-model-preview-fallback" style="${src?'display:none':''}">👟</div><div><div class="sale-preview-title">${esc(m.model_code)} — ${esc(m.model_name||'')}</div><div class="sale-preview-sub">${m.color?'Color: '+esc(m.color)+' • ':''}Kids shoes</div><div class="sale-preview-stock">${total} pairs in stock (total)</div><div class="sale-preview-price">Selling price: $${Number(m.selling_price||0).toFixed(2)} / pair</div></div>`;
+  box.style.display='flex';
+}
 function sizeInputs(id){
   let map={saleModel:'saleSizes',corModel:'corSizes'},box=document.getElementById(map[id]),m=models.find(x=>String(x.id)===String(document.getElementById(id).value));
-  if(!m){box.innerHTML='';if(id==='corModel')renderCorrectionPreview(null);return}
+  if(!m){box.innerHTML='';if(id==='corModel')renderCorrectionPreview(null);if(id==='saleModel')renderSaleModelPreview();return}
   let z=ms(m.id);
-  box.innerHTML=z.map(n=>{let q=currentQty(m.id,n);return `<label class="size-box" style="display:block"><b>Size ${n}</b><small>Current: ${q}</small><input class="qty" data-size="${n}" type="number" min="0" value="${q}" style="width:100%"></label>`}).join('');
-  if(id==='corModel')renderCorrectionPreview(m);
+  if(id==='saleModel'){
+    box.innerHTML=z.map(n=>{let q=currentQty(m.id,n);return `<div class="sale-size-box"><span class="size-name">Size ${n}</span><small class="sale-current">Current: ${q}</small><input class="qty" data-size="${n}" type="number" min="0" max="${Math.max(0,q)}" value="0" placeholder="0" inputmode="numeric"></div>`}).join('') || '<div class="sale-model-empty">No sizes configured for this shoe.</div>';
+    renderSaleModelPreview();
+  }else{
+    box.innerHTML=z.map(n=>{let q=currentQty(m.id,n);return `<label class="size-box" style="display:block"><b>Size ${n}</b><small>Current: ${q}</small><input class="qty" data-size="${n}" type="number" min="0" value="${q}" style="width:100%"></label>`}).join('');
+    if(id==='corModel')renderCorrectionPreview(m);
+  }
 }
 function correctionImage(url,large=false){
   const src=imageSrc(url);
@@ -1135,7 +1202,9 @@ async function renderSales(){
       <div class="size-chips">
         ${g.items.map(x=>{
           const m=models.find(m=>String(m.id)===String(x.model_id));
-          return `<span class="size-chip" data-sale-item-id="${esc(x.id)}">
+          const src=imageSrc(m?.image_url);
+          return `<span class="size-chip" data-sale-item-id="${esc(x.id)}" style="display:inline-flex;align-items:center;gap:7px">
+            ${src?`<img src="${esc(src)}" alt="" style="width:34px;height:34px;object-fit:cover;border-radius:6px;border:1px solid #ddd">`:''}
             ${esc(m?.model_code||'')} — Size <b>${x.size??''}</b> × <span class="history-qty">${Number(x.quantity)||0}</span>
           </span>`;
         }).join('')}
