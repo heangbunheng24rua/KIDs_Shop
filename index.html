@@ -1577,8 +1577,16 @@ async function saveCorrectionModel(model_id){
 
     if(head.error)throw head.error;
 
+    // difference is calculated by the database from new_quantity - old_quantity.
+    // Do not send it explicitly (Supabase/Postgres rejects explicit values
+    // when the column is GENERATED).
     const detail=await db.from('stock_correction_items').insert(
-      items.map(x=>({...x,correction_id:head.data.id}))
+      items.map(x=>({
+        correction_id:head.data.id,
+        shoe_size_id:x.shoe_size_id,
+        old_quantity:x.old_quantity,
+        new_quantity:x.new_quantity
+      }))
     );
 
     if(detail.error){
