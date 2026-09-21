@@ -81,6 +81,112 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:9px;bord
 .order-add-btn{width:100%;margin-top:12px;background:#2563eb!important}.order-cart{margin-top:14px}.order-cart-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.order-cart-table{width:100%;border-collapse:collapse;margin-top:10px}.order-cart-table th,.order-cart-table td{padding:8px;border-bottom:1px solid #e5e7eb;font-size:13px;vertical-align:middle}.order-cart-img{width:42px;height:42px;object-fit:cover;border-radius:7px;border:1px solid #ddd}.order-remove{background:#dc2626;color:#fff;border:0;border-radius:7px;padding:6px 9px;cursor:pointer}.order-summary{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:12px;margin-top:10px;background:#f8fafc;border-radius:10px;font-weight:800}.order-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.order-save-btn{background:#16a34a!important}.order-empty{padding:18px;text-align:center;color:#64748b;border:1px dashed #cbd5e1;border-radius:10px;background:#f8fafc}
 .sales-customer-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px;margin-bottom:10px;font-size:13px}.sales-customer-box b{color:#172033}
 @media(max-width:900px){.order-picker-layout{grid-template-columns:1fr}.order-selected-panel{position:static}}
+
+@media(max-width:700px){
+  /* Mobile phone layout for Create Order / Stock Out */
+  .order-customer-panel{padding:10px}
+  .order-customer-grid{
+    grid-template-columns:1fr !important;
+    gap:9px;
+  }
+  .order-customer-grid label[style*="grid-column"]{
+    grid-column:auto !important;
+  }
+  .order-customer-grid input,
+  .order-customer-grid select{
+    width:100%;
+    min-height:42px;
+    font-size:16px;
+  }
+
+  .order-picker-layout{
+    grid-template-columns:1fr !important;
+    gap:10px;
+  }
+  .order-picker-panel,
+  .order-selected-panel{
+    width:100%;
+    min-width:0;
+  }
+  .order-selected-panel{
+    position:static !important;
+  }
+
+  .sale-model-search{
+    width:100%;
+    max-width:none;
+    min-height:42px;
+    font-size:16px;
+  }
+
+  .sale-model-cards{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px;
+  }
+  .sale-model-card{
+    min-width:0;
+    padding:8px;
+  }
+  .sale-model-card img,
+  .sale-model-card-fallback{
+    width:100%;
+    height:auto;
+    aspect-ratio:1/1;
+  }
+  .sale-model-code{
+    font-size:13px;
+    overflow-wrap:anywhere;
+  }
+
+  .order-size-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+  }
+  .order-size-box{
+    min-width:0;
+    padding:7px 4px;
+  }
+  .order-size-box input{
+    width:100%;
+    min-height:40px;
+    font-size:16px;
+  }
+
+  .order-add-btn,
+  .order-save-btn{
+    min-height:46px;
+    font-size:15px;
+  }
+
+  .order-cart{
+    overflow-x:auto;
+  }
+  .order-cart-table{
+    min-width:650px;
+  }
+
+  /* Make Stock In and Stock Correction usable on phones too */
+  .stock-cards{
+    grid-template-columns:1fr !important;
+  }
+  .stock-size-list{
+    grid-template-columns:1fr !important;
+  }
+  .stock-size-row{
+    grid-template-columns:1fr 95px;
+  }
+  .correction-size-list{
+    grid-template-columns:1fr !important;
+  }
+
+  /* Prevent long text from forcing the whole page wider */
+  .order-selected-title,
+  .order-selected-stock,
+  .order-selected-panel{
+    overflow-wrap:anywhere;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -152,15 +258,43 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:9px;bord
 <section id="sales" class="page">
 <div class="panel">
   <h2>🛒 Create Order / Stock Out</h2>
-  <div class="notice">Record the customer first, then click the <b>shoe image</b> to add shoes to the order. Stock Out quantity starts at <b>0</b> — it never starts with your current stock.</div>
+  <div class="notice">Record the Facebook name, phone, and city/province first, then click the <b>shoe image</b> to add shoes to the order. Stock Out quantity starts at <b>0</b> — it never starts with your current stock.</div>
 
   <div class="order-customer-panel">
     <div class="order-customer-title">👤 Customer Information</div>
     <div class="order-customer-grid">
-      <label>Customer Name<input id="orderCustomerName" placeholder="Heng"></label>
       <label>Facebook Name<input id="orderFacebook" placeholder="Facebook name"></label>
       <label>Phone Number<input id="orderPhone" type="tel" placeholder="0312863632"></label>
-      <label>Location<input id="orderLocation" placeholder="Phnom Penh"></label>
+      <label>City / Province
+        <select id="orderLocation" required>
+          <option value="">Select city / province</option>
+          <option>Phnom Penh</option>
+          <option>Banteay Meanchey</option>
+          <option>Battambang</option>
+          <option>Kampong Cham</option>
+          <option>Kampong Chhnang</option>
+          <option>Kampong Speu</option>
+          <option>Kampong Thom</option>
+          <option>Kampot</option>
+          <option>Kandal</option>
+          <option>Kep</option>
+          <option>Koh Kong</option>
+          <option>Kratie</option>
+          <option>Mondulkiri</option>
+          <option>Oddar Meanchey</option>
+          <option>Pailin</option>
+          <option>Preah Sihanouk</option>
+          <option>Preah Vihear</option>
+          <option>Pursat</option>
+          <option>Prey Veng</option>
+          <option>Ratanakiri</option>
+          <option>Siem Reap</option>
+          <option>Stung Treng</option>
+          <option>Svay Rieng</option>
+          <option>Takeo</option>
+          <option>Tboung Khmum</option>
+        </select>
+      </label>
       <label>Order Date<input id="saleDate" type="date" required></label>
       <label>Payment<select id="payment"><option>Cash</option><option>Transfer</option><option>Credit</option></select></label>
       <label style="grid-column:span 2">Note (optional)<input id="orderNote" placeholder="COD, delivery time, special request..."></label>
@@ -367,7 +501,7 @@ async function load(){
         ...item,
         sale_id:item.sale_id,
         date:h.sale_date||'',
-        customer:h.customer_name||'',
+        customer:'',
         facebook:meta.facebook||'',
         phone:meta.phone||'',
         location:meta.location||'',
@@ -1156,7 +1290,6 @@ async function saveModelStock(model_id){
 async function saveOrder(){
   const model=selectedOrderModel();
   const date=document.getElementById('saleDate').value;
-  const customerName=document.getElementById('orderCustomerName').value.trim();
   const facebook=document.getElementById('orderFacebook').value.trim();
   const phone=document.getElementById('orderPhone').value.trim();
   const location=document.getElementById('orderLocation').value.trim();
@@ -1168,14 +1301,14 @@ async function saveOrder(){
     const available=currentQty(item.model_id,item.size);
     if(item.quantity>available)return alert(`${item.model_id ? (models.find(m=>String(m.id)===String(item.model_id))?.model_code||'Shoe') : 'Shoe'} Size ${item.size}: current stock is ${available}, but this order needs ${item.quantity}.`);
   }
-  const ok=confirm(`Save this order?\n\nCustomer: ${customerName||'-'}\nPhone: ${phone||'-'}\nLocation: ${location||'-'}\nItems: ${orderCartTotalQty()} pairs\nTotal: $${orderCartTotalAmount().toFixed(2)}`);
+  const ok=confirm(`Save this order?\n\nFacebook: ${facebook||'-'}\nPhone: ${phone||'-'}\nLocation: ${location||'-'}\nItems: ${orderCartTotalQty()} pairs\nTotal: $${orderCartTotalAmount().toFixed(2)}`);
   if(!ok)return;
   const btn=document.getElementById('saveOrderBtn');
   try{
     if(btn){btn.disabled=true;btn.textContent='Saving...';}
     const head=await db.from('sales').insert({
       sale_date:date,
-      customer_name:customerName||null,
+      customer_name:null,
       note:orderMetaNote()
     }).select().single();
     if(head.error)throw head.error;
@@ -1190,7 +1323,6 @@ async function saveOrder(){
     if(detail.error){await db.from('sales').delete().eq('id',head.data.id);throw detail.error;}
     msg('✅ Order saved and stock updated');
     orderCart=[];
-    document.getElementById('orderCustomerName').value='';
     document.getElementById('orderFacebook').value='';
     document.getElementById('orderPhone').value='';
     document.getElementById('orderLocation').value='';
@@ -1250,7 +1382,7 @@ async function renderSales(){
   const groups={};
   sales.forEach(x=>{
     const key=String(x.sale_id);
-    if(!groups[key])groups[key]={date:x.date||'',customer:x.customer||'',facebook:x.facebook||'',phone:x.phone||'',location:x.location||'',payment:x.payment||'',note:x.note||'',items:[]};
+    if(!groups[key])groups[key]={date:x.date||'',facebook:x.facebook||'',phone:x.phone||'',location:x.location||'',payment:x.payment||'',note:x.note||'',items:[]};
     groups[key].items.push(x);
   });
   salesHistory.innerHTML=Object.entries(groups).map(([saleId,g])=>{
@@ -1261,7 +1393,7 @@ async function renderSales(){
       <div class="history-head">
         <div>
           <div class="history-title">🛒 Order / Stock Out</div>
-          <div class="history-meta">Date: ${esc(g.date)}${g.customer?' • Customer: '+esc(g.customer):''}${g.phone?' • Phone: '+esc(g.phone):''}${g.location?' • Location: '+esc(g.location):''}${g.payment?' • Payment: '+esc(g.payment):''}</div>
+          <div class="history-meta">Date: ${esc(g.date)}${g.phone?' • Phone: '+esc(g.phone):''}${g.location?' • Location: '+esc(g.location):''}${g.payment?' • Payment: '+esc(g.payment):''}</div>
           ${g.facebook?`<div class="history-meta">📘 Facebook: ${esc(g.facebook)}</div>`:''}
           ${g.note?`<div class="history-meta">📝 ${esc(g.note)}</div>`:''}
         </div>
