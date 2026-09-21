@@ -264,7 +264,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:9px;bord
     <div class="order-customer-title">👤 Customer Information</div>
     <div class="order-customer-grid">
       <label>Facebook Name<input id="orderFacebook" placeholder="Facebook name"></label>
-      <label>Phone Number<input id="orderPhone" type="tel" placeholder="0312863632"></label>
+      <label>Phone Number<input id="orderPhone" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="0312863632" autocomplete="tel"></label>
       <label>City / Province
         <select id="orderLocation" required>
           <option value="">Select city / province</option>
@@ -1397,7 +1397,7 @@ async function renderSales(){
           ${g.facebook?`<div class="history-meta">📘 Facebook: ${esc(g.facebook)}</div>`:''}
           ${g.note?`<div class="history-meta">📝 ${esc(g.note)}</div>`:''}
         </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="history-title">${totalQty} pairs</div><button class="history-edit" onclick="editSaleHistory('${esc(saleId)}')">✏️ Edit Qty</button><button class="history-delete" onclick="deleteSaleHistory('${esc(saleId)}')">Delete</button></div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="history-title">${totalQty} pairs</div><button class="history-edit" onclick="editSaleHistory('${esc(saleId)}')">✏️ Edit Order</button><button class="history-delete" onclick="deleteSaleHistory('${esc(saleId)}')">Delete</button></div>
       </div>
       <div class="size-chips" style="display:block">
         <div class="table-wrap"><table class="history-table"><thead><tr><th>Image</th><th>Shoe</th><th>Size</th><th>Qty Out</th><th>Price</th><th>Total</th></tr></thead><tbody>${g.items.map(x=>{const m=models.find(m=>String(m.id)===String(x.model_id));const src=imageSrc(m?.image_url);return `<tr data-sale-item-id="${esc(x.id)}"><td>${src?`<img class="order-cart-img" src="${esc(src)}" alt="">`:'👟'}</td><td>${esc(m?.model_code||'')} — ${esc(m?.model_name||'')}</td><td>${esc(x.size)}</td><td class="sale-history-qty"><b>${Number(x.quantity)||0}</b></td><td>$${Number(x.unit_price||0).toFixed(2)}</td><td>$${Number(x.total_amount||0).toFixed(2)}</td></tr>`}).join('')}</tbody></table></div>
@@ -1648,30 +1648,96 @@ function editSaleHistory(id){
   const box=document.getElementById(`sale-history-${id}`);
   if(!box)return;
   const rows=[...box.querySelectorAll('[data-sale-item-id]')];
-  if(!rows.length)return;
   rows.forEach(row=>{
-    const qtyCell=row.querySelector('.sale-history-qty');
-    const qty=qtyCell?.textContent.trim()||'0';
-    if(qtyCell)qtyCell.innerHTML=`<input class="history-edit-input" type="number" min="0" step="1" value="${esc(qty)}" data-edit-sale-item="${esc(row.dataset.saleItemId)}">`;
+    const item=sales.find(x=>String(x.id)===String(row.dataset.saleItemId));
+    if(!item)return;
+    const modelOptions=models.map(m=>`<option value="${esc(m.id)}" ${String(m.id)===String(item.model_id)?'selected':''}>${esc(m.model_code)} — ${esc(m.model_name||'')}</option>`).join('');
+    const sizeOptions=sizes.filter(z=>String(z.model_id)===String(item.model_id)).sort((a,b)=>a.size-b.size).map(z=>`<option value="${esc(z.id)}" ${String(z.id)===String(item.shoe_size_id)?'selected':''}>${esc(z.size)}</option>`).join('');
+    const m=models.find(m=>String(m.id)===String(item.model_id));
+    const src=imageSrc(m?.image_url);
+    row.innerHTML=`
+      <td>${src?`<img class="order-cart-img" src="${esc(src)}" alt="">`:'👟'}</td>
+      <td><select class="history-edit-model" data-edit-model-item="${esc(item.id)}" onchange="updateSaleEditSizes('${esc(item.id)}')">${modelOptions}</select></td>
+      <td><select class="history-edit-size" id="edit-size-${esc(item.id)}" data-edit-size-item="${esc(item.id)}">${sizeOptions}</select></td>
+      <td class="sale-history-qty"><input class="history-edit-input" type="number" min="0" step="1" value="${Number(item.quantity)||0}" data-edit-sale-item="${esc(item.id)}"></td>
+      <td class="history-edit-price">$${Number(item.unit_price||0).toFixed(2)}</td>
+      <td class="history-edit-line-total">$${(Number(item.quantity||0)*Number(item.unit_price||0)).toFixed(2)}</td>`;
   });
   const head=box.querySelector('.history-head > div:last-child');
-  if(head){head.querySelectorAll('button').forEach(b=>b.style.display='none');const actions=document.createElement('div');actions.className='history-edit-actions';actions.innerHTML=`<button class="history-edit-save" onclick="saveSaleHistoryEdit('${esc(id)}')">Save</button><button class="history-edit-cancel" onclick="renderSales()">Cancel</button>`;head.appendChild(actions);}
+  if(head){
+    head.querySelectorAll('button').forEach(b=>b.style.display='none');
+    const actions=document.createElement('div');
+    actions.className='history-edit-actions';
+    actions.innerHTML=`<button class="history-edit-save" onclick="saveSaleHistoryEdit('${esc(id)}')">Save</button><button class="history-edit-cancel" onclick="renderSales()">Cancel</button>`;
+    head.appendChild(actions);
+  }
+  box.querySelectorAll('.history-edit-input').forEach(inp=>inp.addEventListener('input',()=>updateSaleEditLineTotal(inp)));
+}
+function updateSaleEditSizes(itemId){
+  const ms=document.querySelector(`[data-edit-model-item="${CSS.escape(String(itemId))}"]`);
+  const ss=document.getElementById(`edit-size-${CSS.escape(String(itemId))}`);
+  const item=sales.find(x=>String(x.id)===String(itemId));
+  if(!ms||!ss||!item)return;
+  const old=String(item.shoe_size_id);
+  const opts=sizes.filter(z=>String(z.model_id)===String(ms.value)).sort((a,b)=>a.size-b.size);
+  ss.innerHTML=opts.map(z=>`<option value="${esc(z.id)}" ${String(z.id)===old?'selected':''}>${esc(z.size)}</option>`).join('');
+  if(!opts.some(z=>String(z.id)===old)&&opts.length)ss.value=String(opts[0].id);
+  updateSaleEditPrice(itemId);
+}
+function updateSaleEditPrice(itemId){
+  const ms=document.querySelector(`[data-edit-model-item="${CSS.escape(String(itemId))}"]`);
+  const row=document.querySelector(`[data-sale-item-id="${CSS.escape(String(itemId))}"]`);
+  if(!ms||!row)return;
+  const m=models.find(x=>String(x.id)===String(ms.value));
+  const price=Number(m?.selling_price||0);
+  const pc=row.querySelector('.history-edit-price');
+  const qi=row.querySelector('[data-edit-sale-item]');
+  const tc=row.querySelector('.history-edit-line-total');
+  if(pc)pc.textContent='$'+price.toFixed(2);
+  if(tc)tc.textContent='$'+(Number(qi?.value||0)*price).toFixed(2);
+}
+function updateSaleEditLineTotal(input){
+  const row=input.closest('tr');
+  const ms=row?.querySelector('.history-edit-model');
+  const m=models.find(x=>String(x.id)===String(ms?.value));
+  const tc=row?.querySelector('.history-edit-line-total');
+  if(tc)tc.textContent='$'+(Number(input.value||0)*Number(m?.selling_price||0)).toFixed(2);
 }
 async function saveSaleHistoryEdit(id){
-  const box=document.getElementById(`sale-history-${id}`);if(!box)return;
-  const inputs=[...box.querySelectorAll('[data-edit-sale-item]')];if(!inputs.length)return;
+  const box=document.getElementById(`sale-history-${id}`);
+  if(!box)return;
+  const inputs=[...box.querySelectorAll('[data-edit-sale-item]')];
   try{
+    const proposed=[],newTotals={},oldTotals={};
     for(const input of inputs){
-      const newQty=Number(input.value);if(!Number.isInteger(newQty)||newQty<0)throw new Error('Quantity must be a whole number of 0 or greater.');
-      const item=(sales||[]).find(x=>String(x.id)===String(input.dataset.editSaleItem));if(!item)throw new Error('Sale item could not be found.');
-      const current=stock.find(s=>String(s.shoe_size_id)===String(item.shoe_size_id));
-      const availableAfterRemovingThisSale=(Number(current?.current_stock)||0)+(Number(item.quantity)||0);
-      if(newQty>availableAfterRemovingThisSale){const sz=sizes.find(z=>String(z.id)===String(item.shoe_size_id));throw new Error(`Size ${sz?.size??''} cannot be set to ${newQty}. Maximum allowed is ${availableAfterRemovingThisSale} pairs.`);}
+      const old=sales.find(x=>String(x.id)===String(input.dataset.editSaleItem));
+      if(!old)throw new Error('Sale item could not be found.');
+      const row=input.closest('tr');
+      const modelId=String(row.querySelector('.history-edit-model').value);
+      const sizeId=String(row.querySelector('.history-edit-size').value);
+      const qty=Number(input.value);
+      if(!Number.isInteger(qty)||qty<0)throw new Error('Quantity must be a whole number of 0 or greater.');
+      const sz=sizes.find(z=>String(z.id)===sizeId);
+      const m=models.find(x=>String(x.id)===modelId);
+      if(!m||!sz||String(sz.model_id)!==modelId)throw new Error('The selected size does not belong to the selected shoe.');
+      newTotals[sizeId]=(newTotals[sizeId]||0)+qty;
+      oldTotals[String(old.shoe_size_id)]=(oldTotals[String(old.shoe_size_id)]||0)+Number(old.quantity||0);
+      proposed.push({id:old.id,shoe_size_id:sizeId,quantity:qty,unit_price:Number(m.selling_price||0),unit_cost:Number(m.cost_price||0)});
     }
-    if(!confirm('Save the new quantities for this Sale / Stock Out transaction?'))return;
-    for(const input of inputs){const qty=Number(input.value);const r=await db.from('sale_items').update({quantity:qty}).eq('id',input.dataset.editSaleItem);if(r.error)throw r.error;}
-    msg('✅ Sale quantity updated');await load();renderStockCards();await renderSales();
-  }catch(err){console.error(err);alert(`Could not update Sale.\n\n${err.message||err}`);}
+    for(const [sid,total] of Object.entries(newTotals)){
+      const available=Number(stock.find(s=>String(s.shoe_size_id)===sid)?.current_stock||0)+Number(oldTotals[sid]||0);
+      const sz=sizes.find(z=>String(z.id)===sid);
+      const m=models.find(x=>String(x.id)===String(sz?.model_id));
+      if(total>available)throw new Error(`${m?.model_code||'Shoe'} Size ${sz?.size||''}: only ${available} pairs are available for this edited order.`);
+    }
+    if(!confirm('Save the changes to this Order / Stock Out?'))return;
+    for(const x of proposed){
+      const r=await db.from('sale_items').update({shoe_size_id:x.shoe_size_id,quantity:x.quantity,unit_price:x.unit_price,unit_cost:x.unit_cost}).eq('id',x.id);
+      if(r.error)throw r.error;
+    }
+    msg('✅ Order shoe / size / quantity updated');
+    await load();renderStockCards();await renderSales();
+  }catch(err){console.error(err);alert(`Could not update Order / Stock Out.\n\n${err.message||err}`);}
 }
 
 async function deleteTransactionRows(detailTable, headerTable, headerId, label){
@@ -1812,4 +1878,22 @@ function exportCSV(){let rows=['model_code,model_name,size,quantity'];stock.forE
 async function importJSON(){let f=importFile.files[0];if(!f)return alert('Choose a JSON backup first');let data=JSON.parse(await f.text());if(!Array.isArray(data.models))return alert('Invalid backup');for(let m of data.models){let r=await db.from('shoe_models').upsert(m,{onConflict:'id'});if(r.error)console.warn(r.error)}importMsg.textContent='Models imported. Refreshing...';await load()}
 createSizeGrid();grid('editSizes');if(document.getElementById('corDate'))document.getElementById('corDate').value=today;renderOrderCart();load();
 </script>
+
+<script>
+/* Phone number: allow ASCII 0-9 only (not Khmer digits or other characters). */
+(function(){
+  const phone = document.getElementById('orderPhone');
+  if(!phone) return;
+
+  function keepEnglishNumbers(){
+    phone.value = phone.value.replace(/[^0-9]/g, '').slice(0, 15);
+  }
+
+  phone.addEventListener('input', keepEnglishNumbers);
+  phone.addEventListener('paste', function(){
+    setTimeout(keepEnglishNumbers, 0);
+  });
+})();
+</script>
+
 </body></html>
